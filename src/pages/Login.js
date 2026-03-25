@@ -1,60 +1,25 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Navbar from '../components/navbar.js';
+import Navbar from '../components/Navbar.js';
 import axios from 'axios';
+import Footer from '../components/Footer.js';
 
 function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const navigate = useNavigate();
-
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.post('http://127.0.0.1:8000/api/login/', {
-        email,
-        password
-      });
-
-      // Assuming backend returns a token
-      localStorage.setItem('token', response.data.token);
-      alert('Login successful!');
-      navigate('/'); // redirect to Home/Dashboard
-    } catch (err) {
-      alert('Login failed. Please check your credentials.');
-      console.error(err);
-    }
-  };
-
   return (
     <>
       <Navbar />
-      <div className="container mt-5" style={{ maxWidth: '400px' }}>
-        <h2 className="mb-4 text-center">Login</h2>
-        <form onSubmit={handleLogin}>
-          <div className="mb-3">
-            <label className="form-label">Email</label>
-            <input 
-              type="email" 
-              className="form-control" 
-              value={email} 
-              onChange={(e) => setEmail(e.target.value)} 
-              required 
-            />
-          </div>
-          <div className="mb-3">
-            <label className="form-label">Password</label>
-            <input 
-              type="password" 
-              className="form-control" 
-              value={password} 
-              onChange={(e) => setPassword(e.target.value)} 
-              required 
-            />
-          </div>
-          <button type="submit" className="btn btn-primary w-100">Login</button>
-        </form>
+
+      <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '80vh' }}>
+        <div className="card p-4 shadow-sm" style={{ width: '350px' }}>
+          <h3 className="text-center mb-3">Login</h3>
+
+          <input className="form-control mb-3" placeholder="Email" />
+          <input className="form-control mb-3" type="password" placeholder="Password" />
+
+          <button className="btn btn-primary w-100">Login</button>
+        </div>
       </div>
+      <Footer />
     </>
   );
 }

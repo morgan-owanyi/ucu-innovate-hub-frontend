@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { createProject } from '../api/api';
-import Navbar from '../components/navbar.js';
+import Navbar from '../components/Navbar.js';
 
 function SubmitInnovation() {
   const [title, setTitle] = useState('');

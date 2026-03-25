@@ -36,3 +36,15 @@ function App() {
 
 export default App;
 */
+
+/*import { BrowserRouter } from 'react-router-dom';
+
+function App() {
+  return (
+    <BrowserRouter>
+      <h1>Router is working</h1>
+    </BrowserRouter>
+  );
+}
+
+export default App*/
