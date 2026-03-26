@@ -1,81 +1,101 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import Navbar from '../components/Navbar';
-import { registerUser } from '../api/api';
+// src/pages/Register.js
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import Navbar from "../components/Navbar";
+
+
 
 function Register() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [role, setRole] = useState('student');
   const navigate = useNavigate();
 
+  // Form state
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [role, setRole] = useState("student"); // default role
+
+  // Handle form submission
   const handleRegister = async (e) => {
     e.preventDefault();
 
     try {
-      const res = await registerUser({ email, password, role });
+      const res = await axios.post(
+        "https://backend-ucu-hub-1.onrender.com/api/register/",
+        { email, password, role }
+      );
 
-      // Save auth data
-      localStorage.setItem('token', res.data.token);
-      localStorage.setItem('role', res.data.user.role);
+      console.log("REGISTER RESPONSE:", res.data);
 
-      alert('Registration successful!');
+      // Save token and role
+      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("role", res.data.user.role);
 
       // Redirect based on role
-      if (res.data.user.role === 'lecturer') {
-        navigate('/lecturer-dashboard');
+      if (res.data.user.role === "lecturer") {
+        navigate("/lecturer-dashboard");
       } else {
-        navigate('/');
+        navigate("/");
       }
-
     } catch (error) {
-      console.error(error);
-      alert('Registration failed. Check your backend.');
+      console.error("REGISTER ERROR:", error);
+      alert("Registration failed. Check console for details.");
     }
   };
 
-  return (
-    <>
-      <Navbar />
-
-      <div className="container d-flex justify-content-center align-items-center" style={{ minHeight: '80vh' }}>
-        <div className="card p-4 shadow-sm" style={{ width: '400px' }}>
-          <h3 className="text-center mb-3">Register</h3>
-
-          <form onSubmit={handleRegister}>
-            <input
-              className="form-control mb-3"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-
-            <input
-              className="form-control mb-3"
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-
-            <select
-              className="form-control mb-3"
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
-            >
-              <option value="student">Student</option>
-              <option value="lecturer">Lecturer</option>
-            </select>
-
-            <button className="btn btn-primary w-100">
-              Register
-            </button>
-          </form>
+    return (
+    
+    <div className="container mt-5">
+      <h2>Register</h2>
+      <form onSubmit={handleRegister} style={{ maxWidth: "400px" }}>
+        <div className="mb-3">
+          <label htmlFor="email" className="form-label">
+            Email address
+          </label>
+          <input
+            type="email"
+            className="form-control"
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
         </div>
-      </div>
-    </>
+
+        <div className="mb-3">
+          <label htmlFor="password" className="form-label">
+            Password
+          </label>
+          <input
+            type="password"
+            className="form-control"
+            id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+
+        <div className="mb-3">
+          <label htmlFor="role" className="form-label">
+            Role
+          </label>
+          <select
+            className="form-select"
+            id="role"
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+            required
+          >
+            <option value="student">Student</option>
+            <option value="lecturer">Lecturer</option>
+          </select>
+        </div>
+
+        <button type="submit" className="btn btn-primary">
+          Register
+        </button>
+      </form>
+    </div>
   );
 }
 
