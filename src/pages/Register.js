@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
-import axios from 'axios';
+import { registerUser } from '../api/api';
 
 function Register() {
   const [email, setEmail] = useState('');
@@ -13,17 +13,16 @@ function Register() {
     e.preventDefault();
 
     try {
-      const response = await axios.post(
-        'https://your-backend.onrender.com/api/register/',
-        { email, password, role }
-      );
+      const res = await registerUser({ email, password, role });
 
-      // Save token & role
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('role', response.data.user.role);
+      // Save auth data
+      localStorage.setItem('token', res.data.token);
+      localStorage.setItem('role', res.data.user.role);
+
+      alert('Registration successful!');
 
       // Redirect based on role
-      if (response.data.user.role === 'lecturer') {
+      if (res.data.user.role === 'lecturer') {
         navigate('/lecturer-dashboard');
       } else {
         navigate('/');
@@ -31,13 +30,14 @@ function Register() {
 
     } catch (error) {
       console.error(error);
-      alert('Registration failed');
+      alert('Registration failed. Check your backend.');
     }
   };
 
   return (
     <>
       <Navbar />
+
       <div className="container d-flex justify-content-center align-items-center" style={{ minHeight: '80vh' }}>
         <div className="card p-4 shadow-sm" style={{ width: '400px' }}>
           <h3 className="text-center mb-3">Register</h3>
@@ -69,7 +69,9 @@ function Register() {
               <option value="lecturer">Lecturer</option>
             </select>
 
-            <button className="btn btn-primary w-100">Register</button>
+            <button className="btn btn-primary w-100">
+              Register
+            </button>
           </form>
         </div>
       </div>

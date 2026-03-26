@@ -20,3 +20,8 @@ export const registerUser = (data) => API.post('register/', data);
 
 // Login (we’ll use later)
 export const loginUser = (data) => API.post('login/', data);
+
+//GET all projects
+export const getProjects = () => API.get('projects/');
+export const getProject = (id) => API.get(`projects/${id}/`);
+export const createProject = (data) => API.post('projects/', data);
