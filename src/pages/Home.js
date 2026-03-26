@@ -1,6 +1,22 @@
 import Navbar from '../components/Navbar';
 import ProjectCard from '../components/ProjectCard';
 import Footer from '../components/Footer';
+import { useEffect, useState } from 'react';
+import { getProjects } from '../api/api';
+
+/*function Home() {
+  const [projects, setProjects] = useState([]);
+
+  useEffect(() => {
+    getProjects()
+      .then(res => {
+        setProjects(res.data);
+      })
+      .catch(err => {
+        console.error('Error fetching projects:', err);
+      });
+  }, []);
+}*/
 
 // Hero Section Component
 function Hero() {
@@ -22,23 +38,18 @@ function Hero() {
 function Home() {
 
   // Temporary dummy data (replace with API later)
-  const projects = [
-    {
-      id: 1,
-      title: "Smart Waste Management System",
-      description: "A system that improves waste collection and recycling using IoT and data analytics."
-    },
-    {
-      id: 2,
-      title: "Campus Food Delivery App",
-      description: "An app that allows students to order food from nearby restaurants within campus."
-    },
-    {
-      id: 3,
-      title: "Hostel Finder Platform",
-      description: "A platform to help students easily locate and book hostels around the university."
-    }
-  ];
+   const [projects, setProjects] = useState([]);
+
+  useEffect(() => {
+    getProjects()
+      .then(res => {
+        setProjects(res.data);
+      })
+      .catch(err => {
+        console.error('Error fetching projects:', err);
+      });
+  }, []);
+
 
   return (
     <>

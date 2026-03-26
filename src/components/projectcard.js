@@ -7,7 +7,6 @@ function ProjectCard({ project }) {
           {project.description.substring(0, 100)}...
         </p>
       </div>
-
       <div className="card-footer bg-white border-0">
         <button className="btn btn-outline-primary w-100">
           View Details

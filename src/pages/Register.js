@@ -3,24 +3,23 @@ import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import axios from 'axios';
 
-function Login() {
+function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [role, setRole] = useState('student');
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
 
     try {
       const response = await axios.post(
-        'https://backend-ucu-hub-1.onrender.com/api/login',
-        { email, password }
+        'https://your-backend.onrender.com/api/register/',
+        { email, password, role }
       );
 
-      // Save token
+      // Save token & role
       localStorage.setItem('token', response.data.token);
-
-      // Save user role
       localStorage.setItem('role', response.data.user.role);
 
       // Redirect based on role
@@ -32,19 +31,18 @@ function Login() {
 
     } catch (error) {
       console.error(error);
-      alert('Invalid credentials');
+      alert('Registration failed');
     }
   };
 
   return (
     <>
       <Navbar />
-
       <div className="container d-flex justify-content-center align-items-center" style={{ minHeight: '80vh' }}>
-        <div className="card p-4 shadow-sm" style={{ width: '350px' }}>
-          <h3 className="text-center mb-3">Login</h3>
+        <div className="card p-4 shadow-sm" style={{ width: '400px' }}>
+          <h3 className="text-center mb-3">Register</h3>
 
-          <form onSubmit={handleLogin}>
+          <form onSubmit={handleRegister}>
             <input
               className="form-control mb-3"
               placeholder="Email"
@@ -62,9 +60,16 @@ function Login() {
               required
             />
 
-            <button className="btn btn-primary w-100">
-              Login
-            </button>
+            <select
+              className="form-control mb-3"
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+            >
+              <option value="student">Student</option>
+              <option value="lecturer">Lecturer</option>
+            </select>
+
+            <button className="btn btn-primary w-100">Register</button>
           </form>
         </div>
       </div>
@@ -72,8 +77,4 @@ function Login() {
   );
 }
 
-<p className="mt-3 text-center">
-  Don’t have an account? <a href="/register">Register here</a>
-</p>
-
-export default Login;
+export default Register;
