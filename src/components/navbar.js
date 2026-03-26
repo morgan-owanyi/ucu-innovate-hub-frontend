@@ -25,6 +25,11 @@ function Navbar() {
                 Login
               </Link>
             </li>
+            <li className="nav-item">
+          <Link className="btn btn-outline-light ms-2" to="/register">
+               Register
+           </Link>
+            </li>
           </ul>
         </div>
       </div>

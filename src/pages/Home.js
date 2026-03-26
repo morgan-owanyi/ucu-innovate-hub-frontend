@@ -1,22 +1,13 @@
+import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import ProjectCard from '../components/ProjectCard';
 import Footer from '../components/Footer';
+import Register from './Register';
+import { useNavigate } from 'react-router-dom';
+import { login } from '../api/api';
 import { useEffect, useState } from 'react';
 import { getProjects } from '../api/api';
 
-/*function Home() {
-  const [projects, setProjects] = useState([]);
-
-  useEffect(() => {
-    getProjects()
-      .then(res => {
-        setProjects(res.data);
-      })
-      .catch(err => {
-        console.error('Error fetching projects:', err);
-      });
-  }, []);
-}*/
 
 // Hero Section Component
 function Hero() {
@@ -27,9 +18,16 @@ function Hero() {
         <p className="lead">
           Discover, share, and grow innovative ideas within the university.
         </p>
-        <a href="/submit" className="btn btn-light btn-lg mt-3">
-          Submit Your Idea
-        </a>
+
+        <div className="mt-4">
+          <Link to="/submit" className="btn btn-light btn-lg me-2">
+            Submit Idea
+          </Link>
+
+          <Link to="/register" className="btn btn-outline-light btn-lg">
+            Register
+          </Link>
+        </div>
       </div>
     </div>
   );
